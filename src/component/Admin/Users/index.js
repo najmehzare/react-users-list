@@ -1,42 +1,55 @@
 import React , {useState} from 'react';
+import { Button } from "@material-tailwind/react";
 import UsersList from './usersList';
-import MyModal from '../../Modal/myModal';
+import AddUser from './addUser';
 
 function Index() {
 
-    let [modalIsOpen, setModalIsOpen] = useState(false)
-    const modalHeader = 'کاربر جدید';
-    const modalButton = 'اضافه';
-    const modalBody = '...';
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    let [usersList, setUsersList] = useState({
+        users : [
+            {id : 1 , name : 'Sara' , family : 'zare' , email : 'sara@gmail.com' , isAdmin: 1 , membershipDate :'date' },
+            {id : 2 , name : 'Ali' , family : 'bahrami', email : 'ali@gmail.com' , isAdmin: 0 , membershipDate :'date' },
+        ]               
+    })
 
     function openModal() {
         setModalIsOpen(true)
-      }
+    }
 
-      function closeModal() {
+    function closeModal() {
         setModalIsOpen(false)
-      }
+    }
 
-      
+    function addTodo(user) {
+        setUsersList({
+            users : [
+                ...usersList.users,
+                user
+            ]       
+        })
+    }
+
+    
     return (
         <>
-            <MyModal 
+            <AddUser 
                 modalIsOpen={modalIsOpen} 
-                modalHeader={modalHeader} 
-                modalBody={modalBody} 
-                modalButton={modalButton}
                 closeModal={closeModal}
+                add={addTodo}
             />
+            
             <div className="inset-0 flex items-center justify-center">
-                <button
-                    type="button"
-                    onClick={openModal}
-                    className="rounded-md bg-black bg-opacity-40 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                    >
+                <Button onClick={openModal}>
                      اضافه کردن کاربر جدید
-                </button>
+                </Button>
             </div>
-            <UsersList />
+
+            <UsersList 
+                users={usersList.users}
+                // delete={this.deleteTodo.bind(this)}
+                // edit={this.editTodo.bind(this)}
+             />
         </>
        
     )
