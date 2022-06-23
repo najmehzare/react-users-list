@@ -54,8 +54,8 @@ function UsersList(props) {
                                         key = {item.id}
                                         user={item} 
                                         index={index}
-                                        deleteUserHandler={item.delete}
-                                        editUserHandler={item.edit}
+                                        deleteUserHandler={props.delete}
+                                        editUserHandler={props.edit}
                                     />)
                                 }
                             </tbody>
