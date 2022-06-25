@@ -1,16 +1,21 @@
-import React from 'react';
+import React , {useContext} from 'react';
 import {
     Card,
     CardBody,
     Typography,
   } from "@material-tailwind/react";
 
-
+//import components
 import User from './user';
+
+//import context
+import UsersListContext from '../../../Contexts/usersListContext';
 
 function UsersList(props) {
 
-    const  {users} = props;
+    const usersContext = useContext(UsersListContext);
+
+    const  {users} = usersContext;
     
     return (
         <>
@@ -48,7 +53,7 @@ function UsersList(props) {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {
-                                users.length === 0
+                               ! users
                                     ? <p>there isn`t any users</p>
                                     : users.map((item,index) => <User 
                                         key = {item.id}

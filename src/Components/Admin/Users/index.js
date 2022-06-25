@@ -1,9 +1,14 @@
 import React , {useState} from 'react';
 import { Button } from "@material-tailwind/react";
+
+//import Components
 import Modal from "../../Modal/modal";
 import UsersList from './usersList';
 import AddUser from './addUser';
 import EditUser from './editUser';
+
+//import contexts
+import UsersListContext from '../../../Contexts/usersListContext';
 
 function Index() {
     const [showModal, setShowModal] = useState(false);
@@ -75,11 +80,17 @@ function Index() {
                 </Button>
             </div>
 
-            <UsersList 
-                users={usersList.users}
-                delete={deleteUser}
-                edit={editUser}
-             />
+            <UsersListContext.Provider value={{
+                users : usersList.users,
+                delete : {deleteUser} , 
+                edit : {editUser}
+            }}>
+                <UsersList 
+                    delete={deleteUser}
+                    edit={editUser}
+                />
+            </UsersListContext.Provider>
+            
         </>
        
     )

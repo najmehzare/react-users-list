@@ -1,7 +1,14 @@
-import React from 'react';
+import React , {useContext } from 'react';
 import { Navbar, Button, Typography } from "@material-tailwind/react";
 
+import AuthContext from '../../../Contexts/authContext';
+
 function Header() {
+
+  const authContext = useContext(AuthContext);
+
+    let dologin = () => authContext.login();
+    let dologout = () =>authContext.logout();
 
       return (
         <Navbar className="mx-auto max-w-screen-xl bg-blue-100 ">
@@ -14,10 +21,12 @@ function Header() {
             >
               مدیریت
             </Typography>
-            
-            <Button variant="gradient" size="sm">
-              کاربران
-            </Button>
+            { 
+              ! authContext.authenticated
+                ? <Button variant="gradient" color="green" size="sm" onClick={dologin}>login</Button>
+                : <Button variant="gradient" color="orange" size="sm" onClick={dologout}>logout</Button>
+            }
+           
           </div>
         </Navbar>
       );
