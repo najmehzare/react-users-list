@@ -3,13 +3,13 @@ import { useState } from 'react'
 export default function AddUser(props) {
 
     const [ user , setUser ] = useState({
-        id : Date.now() , name : '' , family : '' , email : '' , isAdmin: 1 , membershipDate :''
+        id : Date.now() , name : '' , family : '' , email : '' , isAdmin: 'کاربر' , membershipDate :''
     });
 
     let formHandler = e => {
         e.preventDefault();
         props.add(user);
-        setUser({id : Date.now() , name : '' , family : '' , email : '' , isAdmin: 1 , membershipDate :''})
+        setUser({id : Date.now() , name : '' , family : '' , email : '' , isAdmin: 'کاربر' , membershipDate :''})
         props.setShowModal(false)
     }
     const inputHandler = (e) => {
@@ -55,7 +55,6 @@ export default function AddUser(props) {
                     onChange={inputHandler}
                     className="text-right mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
-                    <option>...</option>
                     <option>کاربر</option>
                     <option>ادمین</option>
                 </select>

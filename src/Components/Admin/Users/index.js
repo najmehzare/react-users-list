@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
 import { Button } from "@material-tailwind/react";
+import axios from 'axios';
 
 //import Components
 import Modal from "../../Modal/modal";
@@ -9,6 +10,7 @@ import EditUser from './editUser';
 
 //import contexts
 import UsersListContext from '../../../Contexts/usersListContext';
+
 
 function Index() {
     const [showModal, setShowModal] = useState(false);
@@ -22,12 +24,17 @@ function Index() {
     const [showEditModal, setShowEditModal] = useState(false);
 
     function addUser(user) {
-        setUsersList({
-            users : [
-                ...usersList.users,
-                user
-            ]       
-        })
+        console.log( user)
+        axios.post(`https://62938cc54e324aacf6dc89d4.endapi.io/users`,user)
+            .then(response => {
+                setUsersList({
+                    users : [
+                        ...usersList.users,
+                        response.data.data
+                    ]       
+                });
+            })
+            .catch(err => console.log(err));
     }
 
     function deleteUser(id) {
