@@ -17,7 +17,7 @@ class App extends Component {
                 authenticated : this.state.authenticated, 
                 login : () => { this.setState({ authenticated : true})},
                 logout : () => { this.setState({ authenticated : false})}
-            }}
+                }}
             >
                  <div>
                     <Header />

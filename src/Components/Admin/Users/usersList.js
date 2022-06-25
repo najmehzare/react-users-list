@@ -54,7 +54,9 @@ function UsersList(props) {
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {
                                ! users
-                                    ? <p>there isn`t any users</p>
+                                    ? <tr><td>
+                                            <p>there isn`t any users</p>
+                                       </td></tr>
                                     : users.map((item,index) => <User 
                                         key = {item.id}
                                         user={item} 
