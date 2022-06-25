@@ -63,14 +63,19 @@ function Index() {
     function saveUser(user) {
         let userItem = usersList.users;
         let item = user;
-        let newUsers = userItem.filter(item => item.id !== user.id)
-
-        setUsersList({
-            users : [
-                ...newUsers,
-                item
-            ]       
+        let userId = user.id;
+        let newUsers = userItem.filter(item => item.id !== userId)
+        
+        axios.put(`https://62938cc54e324aacf6dc89d4.endapi.io/users/${userId}`,item)
+        .then(response => {
+            setUsersList({
+                users : [
+                    ...newUsers,
+                    item
+                ]       
+            })
         })
+        .catch(err => console.log(err));
     }
     
     function editUser(id) {
