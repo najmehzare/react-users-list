@@ -49,11 +49,15 @@ function Index() {
             .catch(err => console.log(err));
     }
 
-    
+
     function deleteUser(id) {
-        setUsersList({
-            users : usersList.users.filter(item => item.id !== id)
+        axios.delete(`https://62938cc54e324aacf6dc89d4.endapi.io/users/${id}`)
+        .then(response => {
+            setUsersList({
+                users : usersList.users.filter(item => item.id !== id)
+            })
         })
+        .catch(err => console.log(err));
     }
 
     function saveUser(user) {
