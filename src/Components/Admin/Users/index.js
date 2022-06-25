@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState , useEffect} from 'react';
 import { Button } from "@material-tailwind/react";
 import axios from 'axios';
 
@@ -23,6 +23,18 @@ function Index() {
     const [targetUser, setTargetUser] = useState({});
     const [showEditModal, setShowEditModal] = useState(false);
 
+     // fetch data from api
+    useEffect(()=>{
+        fetchAllUserHandler()
+    },[]);
+
+    let fetchAllUserHandler = () =>{
+        axios.get(`https://62938cc54e324aacf6dc89d4.endapi.io/users`)
+        .then(response => {
+            setUsersList({ users : response.data.data });
+        })
+        .catch(err => console.log(err));
+    }
     function addUser(user) {
         console.log( user)
         axios.post(`https://62938cc54e324aacf6dc89d4.endapi.io/users`,user)
@@ -37,6 +49,7 @@ function Index() {
             .catch(err => console.log(err));
     }
 
+    
     function deleteUser(id) {
         setUsersList({
             users : usersList.users.filter(item => item.id !== id)
