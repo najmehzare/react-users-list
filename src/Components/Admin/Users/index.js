@@ -1,9 +1,10 @@
 import React , {useState , useEffect} from 'react';
 import { Button } from "@material-tailwind/react";
-import axios from 'axios';
+import usersApi from '../../../Api/usersApi';
 
 //import Components
 import Modal from "../../Modal/modal";
+import LoadingModal from  "../../Modal/loading";
 import UsersList from './usersList';
 import AddUser from './addUser';
 import EditUser from './editUser';
@@ -22,6 +23,7 @@ function Index() {
     })
     const [targetUser, setTargetUser] = useState({});
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showLoading, setShowLoading] = useState(true);
 
      // fetch data from api
     useEffect(()=>{
@@ -29,15 +31,18 @@ function Index() {
     },[]);
 
     let fetchAllUserHandler = () =>{
-        axios.get(`https://62938cc54e324aacf6dc89d4.endapi.io/users`)
+        usersApi.get()
         .then(response => {
             setUsersList({ users : response.data.data });
+            setShowLoading(false)
         })
         .catch(err => console.log(err));
     }
     function addUser(user) {
-        console.log( user)
-        axios.post(`https://62938cc54e324aacf6dc89d4.endapi.io/users`,user)
+
+        setShowLoading(true)
+
+        usersApi.post(`/`,user)
             .then(response => {
                 setUsersList({
                     users : [
@@ -45,17 +50,22 @@ function Index() {
                         response.data.data
                     ]       
                 });
+                setShowLoading(false)
             })
             .catch(err => console.log(err));
     }
 
 
     function deleteUser(id) {
-        axios.delete(`https://62938cc54e324aacf6dc89d4.endapi.io/users/${id}`)
+
+        setShowLoading(true)
+
+        usersApi.delete(`/${id}`)
         .then(response => {
             setUsersList({
                 users : usersList.users.filter(item => item.id !== id)
             })
+            setShowLoading(false)
         })
         .catch(err => console.log(err));
     }
@@ -66,7 +76,9 @@ function Index() {
         let userId = user.id;
         let newUsers = userItem.filter(item => item.id !== userId)
         
-        axios.put(`https://62938cc54e324aacf6dc89d4.endapi.io/users/${userId}`,item)
+        setShowLoading(true)
+
+        usersApi.put(`/${userId}`,item)
         .then(response => {
             setUsersList({
                 users : [
@@ -74,6 +86,7 @@ function Index() {
                     item
                 ]       
             })
+            setShowLoading(false)
         })
         .catch(err => console.log(err));
     }
@@ -120,6 +133,11 @@ function Index() {
                 />
             </UsersListContext.Provider>
             
+             {/*Add loading Component*/}
+             <LoadingModal
+                    showLoading={showLoading}
+                    setShowLoading={setShowLoading}
+                />
         </>
        
     )
