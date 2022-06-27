@@ -38,8 +38,9 @@ function Index() {
         })
         .catch(err => console.log(err));
     }
-    function addUser(user) {
 
+
+    function addUser(user) {
         setShowLoading(true)
 
         usersApi.post(`/`,user)
@@ -57,7 +58,6 @@ function Index() {
 
 
     function deleteUser(id) {
-
         setShowLoading(true)
 
         usersApi.delete(`/${id}`)
@@ -135,9 +135,9 @@ function Index() {
             
              {/*Add loading Component*/}
              <LoadingModal
-                    showLoading={showLoading}
-                    setShowLoading={setShowLoading}
-                />
+                showLoading={showLoading}
+                setShowLoading={setShowLoading}
+            />
         </>
        
     )

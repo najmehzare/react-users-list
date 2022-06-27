@@ -1,9 +1,17 @@
 import React , { Component } from 'react';
 
 import Header from './Admin/Layouts/header';
-import Index from './Admin/Users';
 
 import authContext from '../Contexts/authContext';
+
+//import routers
+import Users from '../Routes/users';
+import About from '../Routes/about';
+import { Routes , Route } from 'react-router-dom';
+import Contact from '../Routes/contact';
+import Articles from '../Routes/Articles';
+import SingleArticle from '../Routes/Articles/singleArticle';
+
 
 class App extends Component {
 
@@ -21,7 +29,13 @@ class App extends Component {
             >
                  <div>
                     <Header />
-                    <Index />
+                    <Routes>
+                        <Route path='/' element={ <Users />} />
+                        <Route path='/aboutUs' element={ <About />} />
+                        <Route path='/contactUs' element={ <Contact />} />
+                        <Route path='/articles' element={ <Articles />} />
+                        <Route path='/articles/:id' element={ <SingleArticle />} />
+                    </Routes>
                 </div> 
             </authContext.Provider>
                        
