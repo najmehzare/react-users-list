@@ -1,4 +1,4 @@
-import React , {useState , useEffect} from 'react';
+import React , {useState , useEffect , useContext} from 'react';
 import { Button } from "@material-tailwind/react";
 import usersApi from '../../../Api/usersApi';
 
@@ -11,10 +11,15 @@ import EditUser from './editUser';
 
 //import contexts
 import UsersListContext from '../../../Contexts/usersListContext';
+import AuthContext from '../../../Contexts/authContext';
 
 
 function Index() {
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showLoading, setShowLoading] = useState(true);
+
+    const authContext = useContext(AuthContext);
     const [usersList, setUsersList] = useState({
         users : [
             {id : 1 , name : 'Sara' , family : 'zare' , email : 'sara@gmail.com' , isAdmin: 1 , membershipDate :'date' },
@@ -22,8 +27,7 @@ function Index() {
         ]               
     })
     const [targetUser, setTargetUser] = useState({});
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [showLoading, setShowLoading] = useState(true);
+   
 
      // fetch data from api
     useEffect(()=>{
@@ -115,11 +119,18 @@ function Index() {
                 />
             </Modal>
            
-            
             <div className="inset-0 flex items-center justify-center">
-                <Button onClick={() => { setShowModal(true) }}>
-                     اضافه کردن کاربر جدید
-                </Button>
+            {
+                authContext.authenticated
+                ? (
+                    
+                        <Button onClick={() => { setShowModal(true) }}>
+                            اضافه کردن کاربر جدید
+                        </Button>
+                   
+                )
+                : <p>You must be login</p>
+            }
             </div>
 
             <UsersListContext.Provider value={{

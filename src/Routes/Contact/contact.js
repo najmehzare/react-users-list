@@ -3,7 +3,6 @@ import { Outlet  , Link } from 'react-router-dom'
 import {
     Card,
     CardBody,
-    Typography,
   } from "@material-tailwind/react";
 
  
