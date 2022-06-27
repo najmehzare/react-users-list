@@ -124,12 +124,12 @@ function Index() {
 
             <UsersListContext.Provider value={{
                 users : usersList.users,
-                delete : {deleteUser} , 
-                edit : {editUser}
+                deleteUser , 
+                editUser 
             }}>
                 <UsersList 
-                    delete={deleteUser}
-                    edit={editUser}
+                    // delete={deleteUser}
+                    // edit={editUser}
                 />
             </UsersListContext.Provider>
             

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import UsersListContext from '../../../Contexts/usersListContext';
 
 function User({ user , index , deleteUserHandler , editUserHandler} ) {
+
+    const usersContext = useContext(UsersListContext);
 
     return (
         <tr key={user.id}>
@@ -15,7 +18,7 @@ function User({ user , index , deleteUserHandler , editUserHandler} ) {
             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                 <button
                     type="button"
-                    onClick={() => {editUserHandler(user.id)}}
+                    onClick={() => {usersContext.editUser(user.id)}}
                     className="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 ml-2"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -24,7 +27,7 @@ function User({ user , index , deleteUserHandler , editUserHandler} ) {
                 </button>
                 <button
                     type="button"
-                    onClick={() => {deleteUserHandler(user.id)}}
+                    onClick={() => {usersContext.deleteUser(user.id)}}
                     className="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

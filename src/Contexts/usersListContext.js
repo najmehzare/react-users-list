@@ -2,8 +2,8 @@ import React from "react";
 
 const UsersListContext = React.createContext({
     users : [],
-    delete : () =>{},
-    edit : () =>{}
+    deleteUser : () =>{},
+    editUser : () =>{}
 });
 
 export default UsersListContext;
