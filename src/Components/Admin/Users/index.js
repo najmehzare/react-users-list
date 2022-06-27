@@ -1,4 +1,4 @@
-import React , {useState , useEffect , useContext} from 'react';
+import React , {useState , useEffect , useContext , useReducer } from 'react';
 import { Button } from "@material-tailwind/react";
 import usersApi from '../../../Api/usersApi';
 
@@ -13,21 +13,32 @@ import EditUser from './editUser';
 import UsersListContext from '../../../Contexts/usersListContext';
 import AuthContext from '../../../Contexts/authContext';
 
+//import Reducers
+import AppReducer from '../../../Reducers/appReducer';
+
 
 function Index() {
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showLoading, setShowLoading] = useState(true);
-
-    const authContext = useContext(AuthContext);
-    const [usersList, setUsersList] = useState({
-        users : [
-            {id : 1 , name : 'Sara' , family : 'zare' , email : 'sara@gmail.com' , isAdmin: 1 , membershipDate :'date' },
-            {id : 2 , name : 'Ali' , family : 'bahrami', email : 'ali@gmail.com' , isAdmin: 0 , membershipDate :'date' },
-        ]               
-    })
     const [targetUser, setTargetUser] = useState({});
+
+    // const [usersList, setUsersList] = useState({
+    //     users : [
+    //         {id : 1 , name : 'Sara' , family : 'zare' , email : 'sara@gmail.com' , isAdmin: 1 , membershipDate :'date' },
+    //         {id : 2 , name : 'Ali' , family : 'bahrami', email : 'ali@gmail.com' , isAdmin: 0 , membershipDate :'date' },
+    //     ]               
+    // })
    
+   
+    const authContext = useContext(AuthContext);
+
+    const [usersList , dispatch] = useReducer(AppReducer,{
+            users : [
+                {id : 1 , name : 'Sara' , family : 'zare' , email : 'sara@gmail.com' , isAdmin: 1 , membershipDate :'date' },
+                {id : 2 , name : 'Ali' , family : 'bahrami', email : 'ali@gmail.com' , isAdmin: 0 , membershipDate :'date' },
+            ]  
+        });
 
      // fetch data from api
     useEffect(()=>{
@@ -37,7 +48,8 @@ function Index() {
     let fetchAllUserHandler = () =>{
         usersApi.get()
         .then(response => {
-            setUsersList({ users : response.data.data });
+            dispatch({ type: 'fetch_users' , payload :{data : response.data.data} });
+            // setUsersList({ users : response.data.data });
             setShowLoading(false)
         })
         .catch(err => console.log(err));
@@ -49,12 +61,13 @@ function Index() {
 
         usersApi.post(`/`,user)
             .then(response => {
-                setUsersList({
-                    users : [
-                        ...usersList.users,
-                        response.data.data
-                    ]       
-                });
+                dispatch({type: 'add_user' , payload :{ user : response.data.data }});
+                // setUsersList({
+                //     users : [
+                //         ...usersList.users,
+                //         response.data.data
+                //     ]       
+                // });
                 setShowLoading(false)
             })
             .catch(err => console.log(err));
@@ -66,9 +79,12 @@ function Index() {
 
         usersApi.delete(`/${id}`)
         .then(response => {
-            setUsersList({
-                users : usersList.users.filter(item => item.id !== id)
-            })
+           
+            dispatch({ type: 'delete_user' , payload :{ id : id } });
+            // setUsersList({
+            //     users : usersList.users.filter(item => item.id !== id)
+            // })
+            
             setShowLoading(false)
         })
         .catch(err => console.log(err));
@@ -84,12 +100,13 @@ function Index() {
 
         usersApi.put(`/${userId}`,item)
         .then(response => {
-            setUsersList({
-                users : [
-                    ...newUsers,
-                    item
-                ]       
-            })
+            fetchAllUserHandler()
+            // setUsersList({
+            //     users : [
+            //         ...newUsers,
+            //         item
+            //     ]       
+            // })
             setShowLoading(false)
         })
         .catch(err => console.log(err));
@@ -120,23 +137,21 @@ function Index() {
             </Modal>
            
             <div className="inset-0 flex items-center justify-center">
-            {
+                {
                 authContext.authenticated
                 ? (
-                    
                         <Button onClick={() => { setShowModal(true) }}>
                             اضافه کردن کاربر جدید
                         </Button>
-                   
                 )
                 : <p>You must be login</p>
-            }
+                }
             </div>
 
             <UsersListContext.Provider value={{
                 users : usersList.users,
                 deleteUser , 
-                editUser 
+                editUser
             }}>
                 <UsersList 
                     // delete={deleteUser}
